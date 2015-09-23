@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Animated Custom View</string>
+    <string name="set">Set data</string>
+    <string name="reload">Reload</string>
+</resources>
