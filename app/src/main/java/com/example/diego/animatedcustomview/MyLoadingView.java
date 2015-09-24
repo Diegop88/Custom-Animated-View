@@ -15,8 +15,7 @@ import android.view.View;
 public class MyLoadingView extends View {
     static String TAG = "MyLoadingView";
 
-    boolean data;
-    float value, actValue, posActValue, endValue;
+    float value;
 
     Rect rect;
     RectF rectF;
@@ -67,48 +66,24 @@ public class MyLoadingView extends View {
         pRing.setAntiAlias(true);
     }
 
-    public void setData(float value) {
-        data = true;
-        this.value = value;
-    }
-
-    public void setLoading() {
-        data = false;
-    }
-
     private Runnable animator = new Runnable() {
         @Override
         public void run() {
             updateValues();
-            if(incomplete()){
-                postDelayed(this, 5);
-            }
+            postDelayed(this, 5);
             invalidate(rect);
         }
     };
 
     private void updateValues() {
-        if(data) {
-            if(actValue < endValue)
-                actValue++;
-            else
-                actValue = endValue;
-        } else {
-            posActValue++;
-            if(posActValue == 360)
-                posActValue = 0;
-        }
-    }
-
-    private boolean incomplete() {
-        return actValue < endValue || !data;
+        value++;
+        if(value == 360)
+            value = 0;
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
-        float myPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
 
         rect = new Rect(getPaddingLeft(), getPaddingTop(), w - getPaddingRight(), h - getPaddingBottom());
         rectF = new RectF(rect.left + strokeWidth, rect.top + strokeWidth, rect.right - strokeWidth, rect.bottom - strokeWidth);
@@ -117,22 +92,15 @@ public class MyLoadingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         drawBackRing(canvas);
-        if(data)
-            drawData(canvas);
-        else
-            drawLoading(canvas);
+        drawLoading(canvas);
     }
 
     private void drawBackRing(Canvas canvas) {
         canvas.drawArc(rectF, 0, 360, false, pBackRing);
     }
 
-    private void drawData(Canvas canvas) {
-        canvas.drawArc(rectF, -90, actValue, false, pRing);
-    }
-
     private void drawLoading(Canvas canvas) {
-        canvas.drawArc(rectF, posActValue, 1, false, pRing);
+        canvas.drawArc(rectF, value, 1, false, pRing);
     }
 
     @Override
