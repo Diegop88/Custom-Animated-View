@@ -114,7 +114,7 @@ public class MyLoadingText extends View {
     }
 
     private int getMyMeasure(int measureSpec) {
-        int MINVAL = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+        int MINVAL = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
 
         int dimen = MeasureSpec.getSize(measureSpec);
         int mode = MeasureSpec.getMode(measureSpec);
